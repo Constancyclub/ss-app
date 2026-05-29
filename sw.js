@@ -1,5 +1,5 @@
-const CACHE = 'ss-v2';
-const ASSETS = ['/', '/index.html', '/manifest.json'];
+const CACHE = 'ss-v3';
+const ASSETS = ['/ss-app/', '/ss-app/index.html', '/ss-app/manifest.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
@@ -12,7 +12,7 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/index.html'))));
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/ss-app/index.html'))));
 });
 
 let scheduledTimers = [];
@@ -59,7 +59,7 @@ self.addEventListener('message', e => {
       scheduledTimers.push(setTimeout(() => {
         self.registration.showNotification('Bloco de SS — hora de prospectar', {
           body: 'Separa 1h: DMs, prospecção e leads frios.',
-          icon: '/icon.png'
+          icon: '/ss-app/icon.png'
         });
       }, delay));
     });
@@ -69,7 +69,7 @@ self.addEventListener('message', e => {
     scheduledTimers.push(setTimeout(() => {
       self.registration.showNotification(`${coldCount} lead${coldCount>1?'s':''} frio${coldCount>1?'s':''}`, {
         body: 'Retoma o contato hoje antes de perder o timing.',
-        icon: '/icon.png'
+        icon: '/ss-app/icon.png'
       });
     }, msUntil(8, 0)));
   }
@@ -78,7 +78,7 @@ self.addEventListener('message', e => {
     scheduledTimers.push(setTimeout(() => {
       self.registration.showNotification('Resumo semanal de SS', {
         body: 'Abre o app e confere como foi a semana.',
-        icon: '/icon.png'
+        icon: '/ss-app/icon.png'
       });
     }, msUntilNext(0, 19, 0)));
   }
@@ -87,7 +87,7 @@ self.addEventListener('message', e => {
     scheduledTimers.push(setTimeout(() => {
       self.registration.showNotification('Stories da manhã', {
         body: 'Hora de postar: rotina, dica, enquete ou treino.',
-        icon: '/icon.png'
+        icon: '/ss-app/icon.png'
       });
     }, msUntil(smh, smm)));
   }
@@ -96,7 +96,7 @@ self.addEventListener('message', e => {
     scheduledTimers.push(setTimeout(() => {
       self.registration.showNotification('Stories da tarde', {
         body: 'Resultado, bastidor, CTA ou reflexão.',
-        icon: '/icon.png'
+        icon: '/ss-app/icon.png'
       });
     }, msUntil(sth, stm)));
   }
